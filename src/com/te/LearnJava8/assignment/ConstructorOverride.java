@@ -31,9 +31,9 @@ public class ConstructorOverride {
 
 
 	public static void main(String[] args) {
-		ConstructorOverride constructorOverride1=new ConstructorOverride("Mahesh");
-		ConstructorOverride constructorOverride2=new ConstructorOverride("Mahesh",7559475706l);
-		ConstructorOverride constructorOverride3=new ConstructorOverride("Mahesh",7559475706l,"maheshawaji111@gmail.com");
+		new ConstructorOverride("Mahesh");
+		new ConstructorOverride("Mahesh",7559475706l);
+		new ConstructorOverride("Mahesh",7559475706l,"maheshawaji111@gmail.com");
 		
 	}
 
