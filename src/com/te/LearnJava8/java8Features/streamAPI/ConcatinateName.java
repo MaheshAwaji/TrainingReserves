@@ -24,9 +24,7 @@ public class ConcatinateName {
 				.collect(Collectors.groupingBy(Employee::getDept_name));
 		
 		collect.forEach((dept,eList)->{
-					
-			
-					
+						
 		});
 	}
 

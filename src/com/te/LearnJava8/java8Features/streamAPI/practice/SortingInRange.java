@@ -1,12 +1,11 @@
 package com.te.LearnJava8.java8Features.streamAPI.practice;
 
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-public class EmployeeMain {
+public class SortingInRange {
 	public static void main(String[] args) {
 		List<Employee> employees = Arrays.asList(
 				new Employee(1, "Alice", 90000, "Development", 30, Arrays.asList("Ecommerce", "Finance"), 2),
@@ -26,36 +25,28 @@ public class EmployeeMain {
 						Arrays.asList("Project Management", "Strategic Planning"), 6),
 				new Employee(10, "Jack", 105000, "Development", 36, Arrays.asList("Database Management", "Security"),
 						3));
+		
+//		Group employees first by department and then by their age range (e.g., 20-30, 31-40, etc.). Print the result in a nested map format
+		Map<String, Map<String, List<Employee>>> groupedByDepartmentAndAgeRange = employees.stream()
+	            .collect(Collectors.groupingBy(
+	                Employee::getDepartment,
+	                Collectors.groupingBy(employee -> {
+	                    int age = employee.getAge();
+	                    if (age >= 20 && age <= 30) return "20-30";
+	                    if (age >= 31 && age <= 40) return "31-40";
+	                    if (age >= 41 && age <= 50) return "41-50";
+	                    if (age >= 51 && age <= 60) return "51-60";
+	                    else return "60+";
+	                })
+	            ));
+		 groupedByDepartmentAndAgeRange.forEach((department, ageRangeMap) -> {
+	            System.out.println("Department: " + department);
+	            ageRangeMap.forEach((ageRange, employeeList) -> {
+	                System.out.println("  Age Range: " + ageRange);
+	                employeeList.forEach(employee -> System.out.println("    " + employee));
+	            });
+	        });
 
-//		Given a list of Employee objects, write a program to calculate the average, minimum, and maximum salary for 
-//		each department. Output the department name along with these statistics.
-
-//		employees.stream().collect(Collectors.groupingBy(Employee::getDepartment)).forEach((dept, Elist) -> {
-//			Double average = Elist.stream().collect(Collectors.averagingDouble(Employee::getSalary));
-//			Optional<Employee> minSalEmployee = Elist.stream().min(Comparator.comparingDouble(Employee::getSalary));
-//			Optional<Employee> maxSalEmployee = Elist.stream().max(Comparator.comparingDouble(Employee::getSalary));
-//
-//			System.out.println("dept-" + dept + "\nAverage= " + average);
-//
-//			minSalEmployee.ifPresent(employee -> {
-//				System.out.println("Min Salary " + employee.getSalary());
-//			});
-//
-//			maxSalEmployee.ifPresent(employee -> {
-//				System.out.println("Max Salary " + employee.getSalary());
-//			});
-//
-//		});
-		
-		
-//		Write a program to find all employees who are not in the top 10 highest salaries. Print their names and salaries.
-		
-	      employees.stream()
-			.sorted(Comparator.comparingDouble(Employee::getSalary).reversed())
-			.skip(5)
-			.forEach(employee1->System.out.println(employee1));
-	
-	
 	}
 
 }
